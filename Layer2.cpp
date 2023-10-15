@@ -6,7 +6,8 @@ bool Layer2::process() {
     cout << "Layer 2 processing..." << endl;
     
     FilePatcher patcher("path_to_original_file");
-    patcher.patchFile("path_to_original_file");
+    patcher.createInputFile();
+    patcher.patchFile("user_input.txt");
     if(patcher.verifyPatched("path_to_original_file")) {
         cout << "File is patched correctly!" << endl;
         callNextLayer();

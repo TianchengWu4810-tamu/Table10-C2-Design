@@ -9,13 +9,11 @@ private:
     string originalHash;
     string patchedHash;
     string patchKey;
-
     string computeHash(const vector<char>& data);
 
 public:
     FilePatcher(const string& originalFilePath);
-    
     void patchFile(const string& filePath);
-    
     bool verifyPatched(const string& filePath);
+    void createInputFile();
 };

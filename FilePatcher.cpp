@@ -50,3 +50,17 @@ bool FilePatcher::verifyPatched(const string& filePath) {
     string currentHash = computeHash(fileContents);
     return currentHash == patchedHash;
 }
+
+void FilePatcher::createInputFile() {
+    std::string userInput;
+    std::cout << "Enter your content: ";
+    std::getline(std::cin, userInput);
+    
+    std::ofstream file("user_input.txt");
+    if (file.is_open()) {
+        file << userInput;
+        file.close();
+    } else {
+        std::cerr << "Unable to open file for writing." << std::endl;
+    }
+}
