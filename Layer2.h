@@ -1,4 +1,9 @@
+#ifndef LAYER2_H
+#define LAYER2_H
 #include <iostream>
+#include <cstdlib>
+#include <fstream>
+
 using namespace std;
 class Layer2 {
     private: string pin;
@@ -16,3 +21,5 @@ class Layer2 {
         void secretOperation5();
         void validation();
 };
+
+#endif

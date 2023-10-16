@@ -1,8 +1,6 @@
 #include "Layer2.h"
 #include "Layer3.h"
-#include <iostream>
-#include <cstdlib>
-#include <fstream>
+
 using namespace std;
 
 void Layer2::process() {
