@@ -1,7 +1,7 @@
-#include "Layer2.h"
+#include "Layer1.h"
 
 int main() {
-    Layer2 layer2;
-    layer2.process();
+    Layer1 layer1;
+    layer1.callNextLayer();
     return 0;
 }

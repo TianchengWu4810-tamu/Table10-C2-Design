@@ -23,9 +23,8 @@ void Layer2::secretOperation1() {
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program1", ios::in | ios::out);
-      //Jump to function 2 (Second time funtion)
-    file.seekp(0x2876); // Specific offset to modify
-    file.put(0x92);     // New byte values to patch the binary
+    file.seekp(0x589E); // Specific offset to modify
+    file.put(0x68);     // New byte values to patch the binary
     file.put(0x01); 
     file.close();
     system("mv my_program1 my_program");
@@ -41,9 +40,9 @@ void Layer2::secretOperation3() {
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program1", ios::in | ios::out);
-    file.seekp(0x2882); 
-    file.put(0x22);     
-    file.put(0x04); 
+    file.seekp(0x58aa); 
+    file.put(0xa4);     
+    file.put(0x03); 
     file.close();
     system("mv my_program1 my_program");
 }
@@ -78,8 +77,8 @@ void Layer2::dataUpdate(string data) {
 }
 
 void Layer2::callNextLayer() {
-    // Layer3 layer3;
-    // layer3.updateData(encryptedData);
-    // layer3.layer3main();
-    cout << "You got it!" << endl;
+    cout << "Welcome to Layer 3." << endl;
+    Layer3 layer3;
+    layer3.updateData(encryptedData);
+    layer3.layer3main();
 }

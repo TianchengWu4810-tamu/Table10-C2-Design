@@ -26,11 +26,6 @@ public:
     // string stringer(string text, string key);
     string stringer(const string& key, string& inputPin);
     string encryptData;
-<<<<<<< HEAD
-    void updateData(string data);
-    int layer3main();
-=======
->>>>>>> 557da7b (latest push)
     void updateData(string data);
     int layer3main();
 };

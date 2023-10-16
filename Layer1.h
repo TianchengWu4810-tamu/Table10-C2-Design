@@ -15,7 +15,7 @@ class Layer1 {
     string passed;
     string password;
     string username;
-    int countdown = 30; 
+    int countdown = 5; 
     void readPassFile(const char* fileContent);
     public:
         Layer1() {  

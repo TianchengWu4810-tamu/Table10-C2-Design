@@ -10,10 +10,9 @@ class FileClass {
     const char* fileContent;
     public:
         FileClass() {  
-            fileContent = R"(
-            TIAN, CSCESIXFIVETWO
-            DANIEL, TABLETEN
-            ERIC, SOFTWAREREVERSING)";
+            fileContent = R"(TIAN CSCESIXFIVETWO
+DANIEL TABLETEN
+ERIC SOFTWAREREVERSING)";
         }
         const char* getFile() const {
             return fileContent;

@@ -16,7 +16,6 @@ bool Layer1::process() {
 bool Layer1::validatePass(const string& username, const string& password, const time_t& startTime, int countdown){
     time_t now = time(nullptr);
     if ((now - startTime) < countdown){
-        //TODO: later put obfuscation:
         for (size_t i = 0; i < users.size(); ++i) {
             if (users[i] == username){
                 for (size_t j = 0; j < passwords.size(); ++j) {
@@ -59,7 +58,6 @@ string Layer1::Layer3Defense(){
 void Layer1::readPassFile(const char* fileContent){
     std::istringstream stream(fileContent);
     std::string line;
-
     while (std::getline(stream, line)) {
         istringstream iss(line);
         string item;
@@ -83,6 +81,7 @@ void Layer1::readPassFile(const char* fileContent){
 void Layer1::callNextLayer() {
     Layer2 layer2;
     if (process()) {
+        cout << "Welcome to Layer 2." << endl;
         layer2.dataUpdate(Layer3Defense());
         layer2.process();
     }
