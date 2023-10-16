@@ -2,13 +2,14 @@
 using namespace std;
 
 set<int> prime;
-int public_key;
-int private_key;
+int public_key; //RSA encrypt key
+int private_key; //RSA decrypt key
 int n;
-string password = "JUNGLEISAGENREOFDANCEMUSICTHATDEVELOPEDOUTOFTHEUKRAVESCENEANDSOUNDSYSTEMCULTUREINTHENINETIES";
-// string wordpass = "RADIOISTHETECHNOLOGYOFSIGNALINGANDCOMMUNICATINGUSINGRADIOWAVES";
-vector<int> wordpass {2197, 8974, 17190, 6047, 842, 9820, 15624, 8974, 3131, 1622, 3131, 7112};
+string password = "JUNGLEISAGENREOFDANCEMUSICTHATDEVELOPEDOUTOFTHEUKRAVESCENEANDSOUNDSYSTEMCULTUREINTHENINETIES"; //encrypt check password
+// string wordpass = "RADIOISTHETECHNOLOGYOFSIGNALINGANDCOMMUNICATINGUSINGRADIOWAVES -> RADIOISTHETE";
+vector<int> wordpass {2197, 8974, 17190, 6047, 842, 9820, 15624, 8974, 3131, 1622, 3131, 7112}; //decrypt check password
 
+//key for Vigenere
 string Layer3::getKey(string text, string key){
     int x = text.size();
  
@@ -22,6 +23,7 @@ string Layer3::getKey(string text, string key){
     return key;
 }
 
+//Vigenere
 string Layer3::encryptA(string text, string key) {
     string conversion;
     for (int i = 0; i < text.size(); i++) {
@@ -31,7 +33,8 @@ string Layer3::encryptA(string text, string key) {
     }
     return conversion;
 }
- 
+
+//Vigenere
 string Layer3::decryptA(string text, string key) {
     string source;
     for (int i = 0 ; i < text.size(); i++) {
@@ -42,6 +45,7 @@ string Layer3::decryptA(string text, string key) {
     return source;
 }
 
+//goes to RSA keys
 void Layer3::primefiller() {
     vector<bool> seive(250, true);
     seive[0] = false;
@@ -57,6 +61,7 @@ void Layer3::primefiller() {
     }
 }
 
+//goes to RSA keys
 int Layer3::randprime() {
     int k = rand() % prime.size();
     auto it = prime.begin();
@@ -68,6 +73,7 @@ int Layer3::randprime() {
     return ret;
 }
 
+//RSA keys are set
 void Layer3::setkeys() {
     int prime1 = randprime();
     int prime2 = randprime();
@@ -97,6 +103,7 @@ void Layer3::setkeys() {
     // cout << "Your private key is " << private_key << endl;
 }
 
+//RSA
 long long int Layer3::encryptB(double message) {
     int e = public_key;
     long long int encrpyted_text = 1;
@@ -107,6 +114,7 @@ long long int Layer3::encryptB(double message) {
     return encrpyted_text;
 }
 
+//RSA
 long long int Layer3::decryptB(int encrpyted_text) {
     int d = private_key;
     long long int decrypted = 1;
@@ -117,12 +125,15 @@ long long int Layer3::decryptB(int encrpyted_text) {
     return decrypted;
 }
 
+//goes to RSA
 vector<int> Layer3::toEncryptB(string message) {
     vector<int> form;
     for (auto& letter : message)
         form.push_back(encryptB((int)letter));
     return form;
 }
+
+//goes to RSA
 string Layer3::toDecryptB(vector<int> encoded) {
     
     string s;
@@ -131,7 +142,7 @@ string Layer3::toDecryptB(vector<int> encoded) {
     return s;
 }
 
-
+//String XOR, combines result of encryption A/B with output of Layer 1
 string Layer3::stringer(const string& text, string& key) {
     string output;
     for (int i = 0; i < key.length() && i < text.length(); i++) {
@@ -145,9 +156,12 @@ int Layer3::layer3main() {
     primefiller();
     setkeys();
     // string layer1 = "TESTMESSAGEONE";
-    string layer2replacement = "TestMessage2";
+    Layer1 a;
+    string layer1c  = a.Layer3Defense();
+    string layer1replacement = "TestMessage2";
     string firstkeyA = getKey(password, "HARDHARDHARDHARDHARDHARDHARDHARDHARDHARD");
     string secondkeyA = "HARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHA";
+    
     // cout << "Should be: " << secondkeyA << endl;
     // string a = encryptA(password, key);
     // string b = decryptA(a, key);
@@ -160,13 +174,13 @@ int Layer3::layer3main() {
     // cout << "Should be: " << key << endl;
     // cout << "Should be: " << a << endl;
     // cout << "Should be: " << b << endl;
-    // vector<int> coded = encoder(encryptA(layer1, key));
-    vector<int> coded = toEncryptB(stringer(encryptA(password, firstkeyA), layer2replacement));
+    
+    vector<int> coded = toEncryptB(stringer(encryptA(password, firstkeyA), layer1c));
     // cout << "Initial message:\n" << password << " " << layer2replacement;
-    cout << "\n\nThe encoded message(encrypted by public "
-            "key)\n";
-    for (auto& p : coded)
-        cout << p;
+    // cout << "\n\nThe encoded message(encrypted by public "
+    //         "key)\n";
+    // for (auto& p : coded)
+    //     cout << p;
     // cout << "\n\nThe decoded message(decrypted by private "
     //         "key)\n";
     // cout << decryptA(stringer(toDecryptB(coded), layer2replacement), firstkeyA) << endl;
@@ -195,7 +209,7 @@ int Layer3::layer3main() {
         string input2;
         cin >> input2;
         private_key = 12355;
-        if(input2 == decryptA(stringer(toDecryptB(wordpass), layer2replacement), secondkeyA)) {
+        if(input2 == decryptA(stringer(toDecryptB(wordpass), layer1replacement), secondkeyA)) {
             cout << "You have made it to the end" << endl;
         } else {
             cout << "Try again" << endl;

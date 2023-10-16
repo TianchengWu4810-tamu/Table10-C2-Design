@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <vector>
 #include <sstream>
+#include "Layer1.h"
 using namespace std;
 
 
