@@ -17,52 +17,59 @@ void Layer2::process() {
     } while (userInput.length() < 8); 
     firstPart = userInput.substr(0, 8); 
     secondPart = userInput.substr(8); 
-    secretOperation1();
-    secretOperation3();
-    if (firstPart+secondPart == pin) {
-        callNextLayer();
-    }
+    secretOperation1(); //Dummy function 1 (Called the first time)
+    secretOperation3(); //Dummy function 3 (Called the second time)
 }
 
 void Layer2::secretOperation1() {
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program", ios::in | ios::out | ios::binary);
-    if (file.is_open()) {
+    if (file.is_open()) {   //Jump to function 2 (Second time funtion)
         file.seekp(0xFFFF); // Specific offset to modify
         file.put(0x00);     // New byte values to patch the binary
         file.put(0x00); 
         file.close();
         system("mv my_program1 my_program");
     }
-    string(secondPart.rbegin(), secondPart.rend());
-    key = secondPart;
 }
 
 void Layer2::secretOperation2() {
-    cout << "Fail!" << endl;
+    secretOperation5(); //Initialized the Password.
+    string(secondPart.rbegin(), secondPart.rend());
+    key = secondPart;
 }
 
 void Layer2::secretOperation3() {
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program", ios::in | ios::out | ios::binary);
-    if (file.is_open()) {
+    if (file.is_open()) {   //Jump to function 4 (Second time funtion)
         file.seekp(0xFFFF); // Specific offset to modify
         file.put(0x00);     // New byte values to patch the binary
         file.put(0x00); 
         file.close();
         system("mv my_program1 my_program");
     }
+}
+
+void Layer2::secretOperation4() {
     string outputPin;
     for (int i = 0; i < pin.length() && i < key.length(); i++) {
         outputPin += firstPart[i] ^ key[i];
     }
     firstPart = outputPin;
+    validation();
 }
 
-void Layer2::secretOperation4() {
-    cout << "Fail!" << endl;
+void Layer2::secretOperation5() {
+    pin = "L0ckD0wnP4ssW0rd";
+}
+
+void Layer2::validation() {
+    if (firstPart+secondPart == pin) {
+        callNextLayer();
+    }
 }
 
 void Layer2::callNextLayer() {

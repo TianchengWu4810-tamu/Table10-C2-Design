@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 class Layer2 {
-    private: string pin = "L0ckD0wnP4ssW0rd";
+    private: string pin;
              string userInput;
              string firstPart;
              string secondPart;
@@ -13,4 +13,6 @@ class Layer2 {
         void secretOperation2();
         void secretOperation3();
         void secretOperation4();
+        void secretOperation5();
+        void validation();
 };
