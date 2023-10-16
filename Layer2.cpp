@@ -82,8 +82,8 @@ void Layer2::dataUpdate(string data) {
 }
 
 void Layer2::callNextLayer() {
-    Layer3 layer3;
-    layer3.updateData(encryptedData);
-    layer3.layer3main();
+    // Layer3 layer3;
+    // layer3.updateData(encryptedData);
+    // layer3.layer3main();
     cout << "You got it!" << endl;
 }

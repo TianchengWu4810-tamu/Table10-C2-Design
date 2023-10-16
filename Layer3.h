@@ -16,7 +16,6 @@ public:
     string getKey(string text, string key);
     string encryptA(string text, string key);
     string decryptA(string text, string key);
-    string encryptData;
     void primefiller();
     int randprime();
     void setkeys();
@@ -26,8 +25,9 @@ public:
     string toDecryptB(vector<int> encoded);
     // string stringer(string text, string key);
     string stringer(const string& key, string& inputPin);
-    int layer3main();
+    string encryptData;
     void updateData(string data);
+    int layer3main();
 };
 
 #endif
