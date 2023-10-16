@@ -6,7 +6,7 @@ class Layer2 {
     public:
         void process();
         void callNextLayer();
-        void secretOperation1();
+        void secretOperation1(const string& key, string& Pin);
         string secretOperation2(const string& key, string& Pin);
         string secretOperation3();
         string secretOperation4();

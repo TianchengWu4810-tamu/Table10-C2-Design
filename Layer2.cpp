@@ -6,7 +6,7 @@
 using namespace std;
 
 void Layer2::process() {
-    string userInput, firstPart, secondPart;
+    string userInput, firstPart, secondPart, key;
     cout << "Layer 2 processing...\n";
     do {
         userInput.clear();
@@ -18,11 +18,11 @@ void Layer2::process() {
     } while (userInput.length() < 8); 
     firstPart = userInput.substr(0, 8); 
     secondPart = userInput.substr(8); 
-    secretOperation1();
-
+    
+    secretOperation1(key, firstPart);
 }
 
-void Layer2::secretOperation1() {
+void Layer2::secretOperation1(const string& key, string& Pin) {
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program", ios::in | ios::out | ios::binary);
