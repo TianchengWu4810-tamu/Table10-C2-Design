@@ -21,38 +21,34 @@ void Layer2::process() {
 
 void Layer2::secretOperation1() {
     fstream file;
-    cout << "Processing Op1..." << endl;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program1", ios::in | ios::out);
       //Jump to function 2 (Second time funtion)
     file.seekp(0x2876); // Specific offset to modify
-    file.put(0x68);     // New byte values to patch the binary
-    file.put(0xfe); 
+    file.put(0x92);     // New byte values to patch the binary
+    file.put(0x01); 
     file.close();
     system("mv my_program1 my_program");
 }
 
 void Layer2::secretOperation2() {
-    cout << "Processing Op2..." << endl;
     secretOperation5(); //Initialized the Password.
     secondPart = string(secondPart.rbegin(), secondPart.rend());
     key = secondPart;
 }
 
 void Layer2::secretOperation3() {
-    cout << "Processing Op3..." << endl;
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program1", ios::in | ios::out);
     file.seekp(0x2882); 
-    file.put(0xd8);     
-    file.put(0xfb); 
+    file.put(0x22);     
+    file.put(0x04); 
     file.close();
     system("mv my_program1 my_program");
 }
 
 void Layer2::secretOperation4() {
-    cout << "Processing Op4..." << endl;
     string outputPin;
     for (int i = 0; i < pin.length() && i < key.length(); i++) {
         outputPin += firstPart[i] ^ key[i];
