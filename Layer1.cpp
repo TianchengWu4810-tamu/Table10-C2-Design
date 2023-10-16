@@ -21,6 +21,7 @@ bool Layer1::validatePass(const string& username, const string& password, const 
             if (users[i] == username){
                 for (size_t j = 0; j < passwords.size(); ++j) {
                     if (passwords[j] == password){
+                        passed = "TRUE";
                         return true;
                     }
                 }
@@ -28,6 +29,31 @@ bool Layer1::validatePass(const string& username, const string& password, const 
         }
     }
     return false;
+}
+
+//This will be called by Layer3:
+string Layer1::Layer3Defense(const string& username, const string& password){
+    if (passed != "TRUE"){
+        return "VOID";
+    }
+
+    string combined = password;
+    //basically concatenate the two strings:
+    for (const char& c : username) {
+        combined.push_back(c);
+    }
+
+    // Obfuscate
+    for (char& c : combined) {
+        c += combined.length();
+    }
+
+    // Make sure its capitalized
+    for (char& c : combined) {
+        c = toupper(c); 
+    }
+
+    return combined;
 }
 
 void Layer1::readPassFile(){

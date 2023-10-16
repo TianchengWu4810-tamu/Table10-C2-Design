@@ -10,6 +10,7 @@ class Layer1 {
     vector<string> passwords;
     vector<string> users;
     vector<string> compare;
+    string passed;
     string password;
     string username;
     int countdown = 30; 
@@ -21,4 +22,5 @@ class Layer1 {
         bool process();
         bool validatePass(const string& username, const string& password, const time_t& startTime, int countdown);
         void callNextLayer();
+        string Layer3Defense(const string& username, const string& password);
 };
