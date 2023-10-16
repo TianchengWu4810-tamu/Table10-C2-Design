@@ -151,13 +151,17 @@ string Layer3::stringer(const string& text, string& key) {
     return output;
 }
 
+void Layer3::updateData(string data) {
+    encryptData = data;
+}
+
 
 int Layer3::layer3main() {
     primefiller();
     setkeys();
     // string layer1 = "TESTMESSAGEONE";
-    Layer1 a;
-    string layer1c  = a.Layer3Defense();
+    // Layer1 a;
+    string layer1c  = encryptData;
     string layer1replacement = "TestMessage2";
     string firstkeyA = getKey(password, "HARDHARDHARDHARDHARDHARDHARDHARDHARDHARD");
     string secondkeyA = "HARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHARDHA";
@@ -183,7 +187,7 @@ int Layer3::layer3main() {
     //     cout << p;
     // cout << "\n\nThe decoded message(decrypted by private "
     //         "key)\n";
-    // cout << decryptA(stringer(toDecryptB(coded), layer2replacement), firstkeyA) << endl;
+    // cout << decryptA(stringer(toDecryptB(coded), layer1c), firstkeyA) << endl;
     
 
     // vector<int> coded2 = toEncryptB(stringer(encryptA(wordpass, secondkeyA), layer2replacement));

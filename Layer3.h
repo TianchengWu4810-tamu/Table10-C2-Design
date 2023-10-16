@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <vector>
 #include <sstream>
-#include "Layer1.h"
 using namespace std;
 
 
@@ -26,6 +25,8 @@ public:
     string toDecryptB(vector<int> encoded);
     // string stringer(string text, string key);
     string stringer(const string& key, string& inputPin);
+    string encryptData;
+    void updateData(string data);
     int layer3main();
 };
 
