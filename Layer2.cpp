@@ -36,7 +36,7 @@ void Layer2::secretOperation1() {
 
 void Layer2::secretOperation2() {
     secretOperation5(); //Initialized the Password.
-    string(secondPart.rbegin(), secondPart.rend());
+    secondPart = string(secondPart.rbegin(), secondPart.rend());
     key = secondPart;
 }
 
