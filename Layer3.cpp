@@ -208,3 +208,7 @@ int Layer3::layer3main() {
 
     return 0;
 }
+
+void Layer3::updateData(string data) {
+    encryptedData = data;
+}
