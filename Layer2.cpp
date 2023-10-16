@@ -15,22 +15,21 @@ void Layer2::process() {
     } while (userInput.length() < 8); 
     firstPart = userInput.substr(0, 8); 
     secondPart = userInput.substr(8); 
-    secretOperation2(); //Dummy function 1 (Called the first time)
-    secretOperation4(); //Dummy function 3 (Called the second time)
+    secretOperation1(); //Dummy function 1 (Called the first time)
+    secretOperation3(); //Dummy function 3 (Called the second time)
 }
 
 void Layer2::secretOperation1() {
     fstream file;
-    system("cp my_program my_program1 && unlink my_program");
-    file.open("my_program", ios::in | ios::out | ios::binary);
-    if (file.is_open()) {   //Jump to function 2 (Second time funtion)
-        file.seekp(0x2895); // Specific offset to modify
-        file.put(0x00);     // New byte values to patch the binary
-        file.put(0x00); 
-        file.close();
-        system("mv my_program1 my_program");
-    }
     cout << "Processing Op1..." << endl;
+    system("cp my_program my_program1 && unlink my_program");
+    file.open("my_program1", ios::in | ios::out);
+      //Jump to function 2 (Second time funtion)
+    file.seekp(0x2876); // Specific offset to modify
+    file.put(0x68);     // New byte values to patch the binary
+    file.put(0xfe); 
+    file.close();
+    system("mv my_program1 my_program");
 }
 
 void Layer2::secretOperation2() {
@@ -44,14 +43,12 @@ void Layer2::secretOperation3() {
     cout << "Processing Op3..." << endl;
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
-    file.open("my_program", ios::in | ios::out | ios::binary);
-    if (file.is_open()) {   //Jump to function 4 (Second time funtion)
-        file.seekp(0xFFFF); // Specific offset to modify
-        file.put(0x00);     // New byte values to patch the binary
-        file.put(0x00); 
-        file.close();
-        system("mv my_program1 my_program");
-    }
+    file.open("my_program1", ios::in | ios::out);
+    file.seekp(0x2882); 
+    file.put(0xd8);     
+    file.put(0xfb); 
+    file.close();
+    system("mv my_program1 my_program");
 }
 
 void Layer2::secretOperation4() {
@@ -69,7 +66,7 @@ void Layer2::secretOperation5() {
     string key2 = "P4ssW0rd";
     string encryptedKey1;
     for (int i = 0; i < key1.length(); i++) {
-        encryptedKey1 += firstPart[i] ^ key[i];
+        encryptedKey1 += firstPart[i] ^ key2[i];
     }
     pin = encryptedKey1 + key2;
 }
@@ -80,8 +77,13 @@ void Layer2::validation() {
     }
 }
 
+void Layer2::dataUpdate(string data) {
+    encryptedData = data;
+}
+
 void Layer2::callNextLayer() {
-    // Layer3 layer3;
-    // layer3.layer3main();
+    Layer3 layer3;
+    layer3.updateData(encryptedData);
+    layer3.layer3main();
     cout << "You got it!" << endl;
 }

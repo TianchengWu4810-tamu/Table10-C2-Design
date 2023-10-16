@@ -11,6 +11,7 @@ class Layer2 {
              string firstPart;
              string secondPart;
              string key;
+             string encryptedData;
     public:
         void process();
         void callNextLayer();
@@ -20,6 +21,7 @@ class Layer2 {
         void secretOperation4();
         void secretOperation5();
         void validation();
+        void dataUpdate(string data);
 };
 
 #endif

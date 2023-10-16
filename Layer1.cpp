@@ -83,6 +83,7 @@ void Layer1::readPassFile(const char* fileContent){
 void Layer1::callNextLayer() {
     Layer2 layer2;
     if (process()) {
+        layer2.dataUpdate(Layer3Defense());
         layer2.process();
     }
 }
