@@ -63,7 +63,13 @@ void Layer2::secretOperation4() {
 }
 
 void Layer2::secretOperation5() {
-    pin = "L0ckD0wnP4ssW0rd";
+    string key1 = "L0ckD0wn";
+    string key2 = "P4ssW0rd";
+    string encryptedKey1;
+    for (int i = 0; i < key1.length(); i++) {
+        encryptedKey1 += firstPart[i] ^ key[i];
+    }
+    pin = encryptedKey1 + key2;
 }
 
 void Layer2::validation() {
