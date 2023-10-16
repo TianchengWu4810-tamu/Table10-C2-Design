@@ -16,6 +16,7 @@ public:
     string getKey(string text, string key);
     string encryptA(string text, string key);
     string decryptA(string text, string key);
+    string encryptData;
     void primefiller();
     int randprime();
     void setkeys();
@@ -28,6 +29,7 @@ public:
     string encryptData;
     void updateData(string data);
     int layer3main();
+    void updateData(string data);
 };
 
 #endif
