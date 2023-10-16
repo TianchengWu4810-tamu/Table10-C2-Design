@@ -1,12 +1,6 @@
 #include "Layer3.h"
 using namespace std;
 
-bool Layer3::process() {
-    cout << "Layer 3 processing..." << endl;
-    return true;
-}
-#include "Layer3.h"
-
 set<int> prime;
 int public_key;
 int private_key;
@@ -114,8 +108,7 @@ long long int Layer3::encryptB(double message) {
 }
 
 long long int Layer3::decryptB(int encrpyted_text) {
-    int d = 12355;
-    // int d = private_key;
+    int d = private_key;
     long long int decrypted = 1;
     while (d--) {
         decrypted *= encrpyted_text;
@@ -201,6 +194,7 @@ int Layer3::layer3main() {
             cout << p << endl;
         string input2;
         cin >> input2;
+        private_key = 12355;
         if(input2 == decryptA(stringer(toDecryptB(wordpass), layer2replacement), secondkeyA)) {
             cout << "You have made it to the end" << endl;
         } else {
