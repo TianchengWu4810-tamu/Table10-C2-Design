@@ -32,7 +32,7 @@ bool Layer1::validatePass(const string& username, const string& password, const 
 }
 
 //This will be called by Layer3:
-string Layer1::Layer3Defense(const string& username, const string& password){
+string Layer1::Layer3Defense(){
     if (passed != "TRUE"){
         return "VOID";
     }
@@ -56,21 +56,19 @@ string Layer1::Layer3Defense(const string& username, const string& password){
     return combined;
 }
 
-void Layer1::readPassFile(){
-    ifstream inputFile("File1.txt");
+void Layer1::readPassFile(const char* fileContent){
+    std::istringstream stream(fileContent);
+    std::string line;
 
-    if (!inputFile.is_open()) {
-        cerr << "Failed to open the file.\n";
-    }
-
-    string line;
-    while (getline(inputFile, line)) {
+    while (std::getline(stream, line)) {
         istringstream iss(line);
         string item;
         for (int i = 0; i < 2; i++) {
             getline(iss, item, ' ');
-              if (i < 1){
-                users.push_back(item);
+            if (i < 1){
+                if (item.length() > 0){
+                    users.push_back(item);
+                }
 				if (iss.eof()) {
 					break;
 				}
@@ -80,8 +78,6 @@ void Layer1::readPassFile(){
 			}
         }
     }
-
-    inputFile.close();  // Close the file
 }
 
 void Layer1::callNextLayer() {
