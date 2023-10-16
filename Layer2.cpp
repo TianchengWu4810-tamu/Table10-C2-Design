@@ -6,7 +6,6 @@
 using namespace std;
 
 void Layer2::process() {
-    string userInput, firstPart, secondPart, key;
     cout << "Layer 2 processing...\n";
     do {
         userInput.clear();
@@ -18,38 +17,52 @@ void Layer2::process() {
     } while (userInput.length() < 8); 
     firstPart = userInput.substr(0, 8); 
     secondPart = userInput.substr(8); 
-    
-    secretOperation1(key, firstPart);
+    secretOperation1();
+    secretOperation3();
+    if (firstPart+secondPart == pin) {
+        callNextLayer();
+    }
 }
 
-void Layer2::secretOperation1(const string& key, string& Pin) {
+void Layer2::secretOperation1() {
     fstream file;
     system("cp my_program my_program1 && unlink my_program");
     file.open("my_program", ios::in | ios::out | ios::binary);
     if (file.is_open()) {
-        file.seekp(0x00); // Specific offset to modify
-        file.put(0x140001774);     // New byte values to patch the binary
+        file.seekp(0xFFFF); // Specific offset to modify
+        file.put(0x00);     // New byte values to patch the binary
+        file.put(0x00); 
         file.close();
         system("mv my_program1 my_program");
     }
+    string(secondPart.rbegin(), secondPart.rend());
+    key = secondPart;
 }
 
-string Layer2::secretOperation2(const string& key, string& inputPin) {
+void Layer2::secretOperation2() {
+    cout << "Fail!" << endl;
+}
+
+void Layer2::secretOperation3() {
+    fstream file;
+    system("cp my_program my_program1 && unlink my_program");
+    file.open("my_program", ios::in | ios::out | ios::binary);
+    if (file.is_open()) {
+        file.seekp(0xFFFF); // Specific offset to modify
+        file.put(0x00);     // New byte values to patch the binary
+        file.put(0x00); 
+        file.close();
+        system("mv my_program1 my_program");
+    }
     string outputPin;
     for (int i = 0; i < pin.length() && i < key.length(); i++) {
-        outputPin += inputPin[i] ^ key[i];
+        outputPin += firstPart[i] ^ key[i];
     }
-    return outputPin;
+    firstPart = outputPin;
 }
 
-string Layer2::secretOperation3() {
-    string temp;
-    return temp;
-}
-
-string Layer2::secretOperation4() {
-    string temp;
-    return temp;
+void Layer2::secretOperation4() {
+    cout << "Fail!" << endl;
 }
 
 void Layer2::callNextLayer() {
