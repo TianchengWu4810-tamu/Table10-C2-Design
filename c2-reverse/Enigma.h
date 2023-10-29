@@ -20,11 +20,11 @@ class Enigma{
         Enigma(int num, char ** str);
         void checkPlugboardConfig(const char* configFile, vector<int>& plugboard);
         int checkAppearedBefore(vector<int> param_1, int output,int input);
-        void checkReflectorConfig(char* param_1, vector<int>& param_2);
+        void checkReflectorConfig(char* param_1, vector<int>& reflector);
         void checkRotorConfig(char* configFile, vector<int>& rotor);
         void checkRotorPositionConfig(char* filename);
         int isNumberRangeCorrect(int param_1);
-        bool isPlugboardInputValid(const char* filename, ifstream& file, int* readChar);
+        int isPlugboardInputValid(const char* filename, ifstream& file, int readChar);
         void encryptMessage(const char* message);
 };
 

@@ -3,10 +3,14 @@
 Enigma::Enigma(int num, char ** str){
     Component *newComp;
     vector<int> plugboards, reflectors, rotors; //128, plugboard; 108, reflectors; e8, rotors;
+
+    cout << "checking plugboard\n";
     checkPlugboardConfig(str[1], plugboards);
+    cout << "checking reflector\n";
     checkReflectorConfig(str[2], reflectors);
     vector<int> cpRotors;
     for (int i = 3; i < num-1; i++){
+        cout << "checking rotor: " << str[i] << endl;
         checkRotorConfig(str[i],cpRotors);
         rotors.insert(rotors.end(), cpRotors.begin(), cpRotors.end());
         cpRotors.clear();
@@ -33,16 +37,16 @@ Enigma::Enigma(int num, char ** str){
     }
 }
 
-bool Enigma::isPlugboardInputValid(const char* filename, ifstream& file, int* readChar) {
-        file>> std::ws;
-
+int Enigma::isPlugboardInputValid(const char* filename, ifstream& file, int readChar) {
+        file >> ws;
         //check if next element of the file is the end of file:
-        if (file.peek() == -1) {
-            return false;
+        if (file.peek() == EOF) {
+            cout << "end of file\n";
+            return -1;
         }
-
+        
         //reads an integer from the file and put it in param3
-        file>> *readChar;
+        file >> readChar;
 
         //fails because the char read from file is not an integer
         if (file.fail()) {
@@ -51,15 +55,15 @@ bool Enigma::isPlugboardInputValid(const char* filename, ifstream& file, int* re
         }
 
         //check if the integer read from file is within a given range:
-        if (!Enigma::isNumberRangeCorrect(*readChar)) {
+        if (!Enigma::isNumberRangeCorrect(readChar)) {
             cout << "The file " << filename << " contains a number that is not between 0 and 25" << endl;
             file.close();
         }
-        return true;
+        return readChar;
 }
 
 void Enigma::checkPlugboardConfig(const char* configFile, vector<int>& plugboard) {
-    std::ifstream file(configFile); 
+    ifstream file(configFile); 
     int a = 0;
     int b;
 
@@ -69,8 +73,8 @@ void Enigma::checkPlugboardConfig(const char* configFile, vector<int>& plugboard
     }
 
     while(!file.eof()) {
-
-        if (!Enigma::isPlugboardInputValid(configFile,file,&b)) {
+        b = Enigma::isPlugboardInputValid(configFile,file,b);
+        if (b == -1) {
             cout << "Incorrect number of parameters in plugboard file" << " " << configFile << endl;
             break; //exit while loop
         }
@@ -82,12 +86,13 @@ void Enigma::checkPlugboardConfig(const char* configFile, vector<int>& plugboard
         if (Enigma::checkAppearedBefore(temp_vector,b,a) != -1) break; //********
 
         a += 1; //keep record of how far file pointer traversed
+        file >> ws;
     }
 
     file.close();
 }
 
-void Enigma::checkReflectorConfig(char* fname, vector<int>& param_2) {
+void Enigma::checkReflectorConfig(char* fname, vector<int>& reflector) {
   std::ifstream file(fname);
   // fs.open(fname, std::fstream::in | std::fstream::out | std::fstream::app);
 //parameters arent exact 
@@ -103,7 +108,7 @@ void Enigma::checkReflectorConfig(char* fname, vector<int>& param_2) {
     // if(local_25c == -1) break;
     int output;
     file >> output;
-    if(!file.fail()) {
+    if(file.fail()) {
       cout << "Non-numeric character in reflector file " << fname << endl;
       // file.close();
       //throw exception
@@ -113,10 +118,10 @@ void Enigma::checkReflectorConfig(char* fname, vector<int>& param_2) {
       // file.close();
       //throw exception
     }
-    param_2.push_back(output);
+    reflector.push_back(output);
     bool invalid = true;
     if(input < 26) {
-      vector<int> local_258 = param_2;
+      vector<int> local_258 = reflector;
       int appeared = checkAppearedBefore(local_258,output,input);
       if(appeared == -1) {
         invalid = false;
@@ -129,6 +134,8 @@ void Enigma::checkReflectorConfig(char* fname, vector<int>& param_2) {
       //throw exception
     }
     input++;
+    
+    file >> ws;
   }
   // file.close();
   if((input & 1) != 0) {
@@ -147,8 +154,6 @@ void Enigma::checkRotorPositionConfig(char* fileName) {
     if (!file) {
         std::cerr << "Error opening or reading the configuration file " << fileName << std::endl;
     }
-
-
     int number;
     int count = 0;
     while (!file.eof()) {
@@ -166,6 +171,7 @@ void Enigma::checkRotorPositionConfig(char* fileName) {
 
         positions.push_back(number); //Need to figure out what's this+0x18
         count++;
+        file >> ws;
     }
 
 
@@ -187,7 +193,8 @@ int Enigma::checkAppearedBefore(vector<int> param_1,int output, int input) {
     if(output == param_1[i]) break;
     i++;
   }
-  cout << "Invalid mapping of Input" << input << " to output " << output;
+
+  cout << "Invalid mapping of input " << input << " to output " << output;
   cout << " (output " << output << " is already mapped to from input " << i << ")" << endl;
   return i;
 }
@@ -212,31 +219,45 @@ void Enigma::checkRotorConfig(char* fileName, vector<int>& rotor) {
     }
    
     while (!file.eof()) {
-        file >> std::ws >> number;
+        file >> ws >> number;
        
         if (file.fail()) {
             std::cerr << "Non-numeric character for mapping in rotor file " << fileName << std::endl;
-            file.close();
+            //file.close();
+            break;
         }
        
         if (!isNumberRangeCorrect(number)) {
             std::cerr << "The file " << fileName << " contains a number that is not between 0 and 25" << std::endl;
-            file.close();
-        }
-       
-        if (checkAppearedBefore(rotor, number, input)) {
-            std::cerr << "Duplicate number in the file: " << fileName << std::endl;
-            file.close();
+            //file.close();
+            break;
         }
 
 
         rotor.push_back(number);
+
+        bool invalid = true;
+        vector <int> temp_vec = rotor;
+
+        if(input < 25){
+          
+          int appeared = checkAppearedBefore(temp_vec,number,input);
+          if(appeared == -1) {
+            invalid = false;
+          }
+        } else {
+          invalid = false;
+        }
+        if(invalid) {
+          break;
+        }
         input += 1;
+        file >> ws;
     }
    
     file.close();
    
-    if (input != 26) {
+    if (input < 26) {
         std::cerr << "Not all inputs mapped in rotor file: " << fileName << std::endl;
     }
 }
