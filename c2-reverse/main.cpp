@@ -1,5 +1,6 @@
 #include "Enigma.h"
 int main() {
+    cout << "begin\n";
     char** fnamelist = new char*[8];
     fnamelist[0] = "./enigma";
     fnamelist[1] = "I.pb";
@@ -13,10 +14,13 @@ int main() {
     string param_1 = "SXHPPSHJLBIUKXZLFIAZZGPTCHBBAOPISOHFSPKBDRWDWKWLTMQSPVNWNFCVPTMZLYUTFVKCPHVARKVHBZMNFBDIHAWVPBKUTRTYENEGTTJPXEUGBXHZJMMGFQTEVMBENUMIOHLCLDDDHGXSTABXUYMRJTWTZSCYVFLZYFLZMXYDGRUJPDHDHHCCGNRELAIYQOBXPNVSDECRAWQVHOITADBTGUDFXIMAYWKZEDMYICIUUIQIXXGYHBZFZXGBFPBVMPLPDBEMNFFNPWMKQOCFCVSQPOGMITQFJRHFZJIRSHUFNTFBBFQREUHIZNNCCCGEMPHDHBPFLDVKDCBTRFFFTLNGCPFWRWFOHNMCJXNNQEDHYIQVKSKFCAMZBIWHERXFNHRHMQVLXX";
     char* input = &param_1[0];
     char* input2;
+
+    cout << "begin encrypting " << endl;
     do {
       if ((input != NULL) && (input[0] == '\0')) {
         // delete enigma;
         // return param_1;
+        cout << "end of encryption" << endl;
         break; //added for main.cpp
       }
       if (((char)*input < 'A') || ('Z' < (char)*input)) {
@@ -25,8 +29,9 @@ int main() {
         // return param_1;
         break; //added for main.cpp
       }
-      input2 = input;
-      enigma.encryptMessage(input2);
+      //input2 = input;
+      input2 = enigma.encryptMessage(input);
+      cout << "encrypt message: " << input2 << endl;
       input++; //go to next char in char string
   } while( true );
 }

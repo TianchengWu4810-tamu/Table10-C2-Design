@@ -3,17 +3,18 @@
 Rotor::Rotor(string fname,int pos) {
   std::ifstream fs(fname);
   int i = 0;
-  while(true) {
+  while(!fs.eof()) {
     int rotorFile;
     fs >> rotorFile;
-    bool notend = true; //TODO: related to filesize
-    if (!notend) break;
-          if(i < 26) {
+    //bool notend = true; //TODO: related to filesize
+    //if (!notend) break;
+    if(i < 26) {
       first26[i] = rotorFile;
     } else {
       positions.push_back(rotorFile);
     }
     i++;
+    fs >> ws;
   }
   this->pos = pos;
 }

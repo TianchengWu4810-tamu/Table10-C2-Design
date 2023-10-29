@@ -17,7 +17,7 @@ class Component{
                 component1.push_back(a);
             }
             else {
-                component1.push_back(a);
+                component2.push_back(a);
             }
             b += 1;
         }

@@ -25,7 +25,7 @@ class Enigma{
         void checkRotorPositionConfig(char* filename);
         int isNumberRangeCorrect(int param_1);
         int isPlugboardInputValid(const char* filename, ifstream& file, int readChar);
-        void encryptMessage(const char* message);
+        char* encryptMessage(char* message);
 };
 
 #endif

@@ -23,6 +23,7 @@ Enigma::Enigma(int num, char ** str){
         globalVar = num - 4;
     }
 
+    cout << "checking rotor position "<< endl;
     checkRotorPositionConfig(str[num-1]);
 
     newComp = new Component(str[1]);
@@ -33,6 +34,8 @@ Enigma::Enigma(int num, char ** str){
 
     for(int j = 0; j < globalVar; j++){
         Rotor rotor(str[j+3], positions[j]);
+        
+        cout << "rotor " << j + 1 << " created" << endl;
         rotorVec.push_back(rotor);
     }
 }
@@ -262,14 +265,13 @@ void Enigma::checkRotorConfig(char* fileName, vector<int>& rotor) {
     }
 }
 
-void Enigma::encryptMessage(const char* message){
+char* Enigma::encryptMessage(char* message){
     int key = comp1.map(*message - 0x41); //local_24
     Rotor rotor = rotorVec[globalVar - 1]; //pRVar5
     int rotorPos1; //iVar4
     int rotorPos2; //iVar3
     bool inPos; //char cVar2
     bool a; //bool bVar1
-    
     if(globalVar > 0){
         //rotor = rotorVec[globalVar - 1];
         rotor.rotate();
@@ -314,4 +316,5 @@ void Enigma::encryptMessage(const char* message){
     int var = comp1.map(key);
     char temp = var + 'A';
     message = &temp;
+    return message;
 }
