@@ -7,7 +7,7 @@ class Component{
     
   vector <int> component1, component2;
   public:
-    Component();
+    Component(){};
     Component(char *filename){
         int a;
         int b = 0;
