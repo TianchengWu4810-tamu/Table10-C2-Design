@@ -243,29 +243,29 @@ void Enigma::checkRotorConfig(char* fileName, vector<int>& rotor) {
 
 void Enigma::encryptMessage(const char* message){
     int key = comp1.map(*message - 0x41); //local_24
-    Rotor rotor; //pRVar5
+    Rotor rotor = rotorVec[globalVar - 1]; //pRVar5
     int rotorPos1; //iVar4
     int rotorPos2; //iVar3
     bool inPos; //char cVar2
     bool a; //bool bVar1
     
     if(globalVar > 0){
-        rotor = rotorVec[globalVar - 1];
-        rotor.rotate(rotor);
+        //rotor = rotorVec[globalVar - 1];
+        rotor.rotate();
 
         for(int i = globalVar; i > 0; i--){
             rotor = rotorVec[i-1];
-            rotorPos1 = Rotor::shiftDown(rotor, key);
-            rotorPos1 = Rotor::mapForward(rotor,rotorPos1);
-            key = Rotor::shiftUp(rotor, rotorPos1);
-            inPos = Rotor::isCurrentPositionInNotch(rotor);
+            rotorPos1 = rotor.shiftDown(key);
+            rotorPos1 = rotor.mapForward(rotorPos1);
+            key = rotor.shiftUp(rotorPos1);
+            inPos = rotor.isCurrentPositionInNotch();
 
             
             if(!inPos){
                 a = false;
             }else{
-                rotorPos1 = Rotor::getPreviousPosition(rotor);
-                rotorPos2 = Rotor::getCurrentPosition(rotor);
+                rotorPos1 = rotor.getPreviousPosition();
+                rotorPos2 = rotor.getCurrentPosition();
 
                 if(rotorPos1 == rotorPos2){
                     a = false;
@@ -276,7 +276,7 @@ void Enigma::encryptMessage(const char* message){
 
             if(a && (i > 1)){
                 rotor = rotorVec[i-2];
-                Rotor::rotate(rotor);
+                rotor.rotate();
             }
         }
 
@@ -285,12 +285,11 @@ void Enigma::encryptMessage(const char* message){
         for (int j = 0; j < globalVar; j++){
             rotor = rotorVec[j];
 
-            rotorPos1 = Rotor::shiftDown(rotor, key);
-            rotorPos1 = Rotor::mapBackward(rotor, rotorPos1);
-            key = Rotor::shiftUp(rotor, rotorPos1);
+            rotorPos1 = rotor.shiftDown(key);
+            rotorPos1 = rotor.mapBackward(rotorPos1);
+            key = rotor.shiftUp(rotorPos1);
         }
     }
-
     int var = comp1.map(key);
     char temp = var + 'A';
     message = &temp;
