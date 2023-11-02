@@ -13,27 +13,27 @@ int main() {
     Enigma enigma(7, fnamelist);//Enigma* enigma = new Enigma(7, fnamelist);
     string param_1 = "SXHPPSHJLBIUKXZLFIAZZGPTCHBBAOPISOHFSPKBDRWDWKWLTMQSPVNWNFCVPTMZLYUTFVKCPHVARKVHBZMNFBDIHAWVPBKUTRTYENEGTTJPXEUGBXHZJMMGFQTEVMBENUMIOHLCLDDDHGXSTABXUYMRJTWTZSCYVFLZYFLZMXYDGRUJPDHDHHCCGNRELAIYQOBXPNVSDECRAWQVHOITADBTGUDFXIMAYWKZEDMYICIUUIQIXXGYHBZFZXGBFPBVMPLPDBEMNFFNPWMKQOCFCVSQPOGMITQFJRHFZJIRSHUFNTFBBFQREUHIZNNCCCGEMPHDHBPFLDVKDCBTRFFFTLNGCPFWRWFOHNMCJXNNQEDHYIQVKSKFCAMZBIWHERXFNHRHMQVLXX";
     string param_2 = "401";
-    char* input = &param_1[0];
+    int input = 0;
     char* input2;
     string enc = "";
 
     cout << "begin encrypting " << endl;
     do {
-      cout << "Input: " << *input << endl;
-      if ((input != NULL) && (input[0] == '\0')) {
+      cout << "Input: " << param_1[input] << endl;
+      if ((&param_1[input] != NULL) && (param_1[input] == '\0')) {
         // delete enigma;
         // return param_1;
         cout << "end of encryption" << endl;
         break; //added for main.cpp
       }
-      if (((char)*input < 'A') || ('Z' < (char)*input)) {
+      if (((char)param_1[input]< 'A') || ('Z' < (char)param_1[input])) {
         cout << input << " is not a valid input character (input characters must be upper case  letters A-Z)!" << endl;
         // delete enigma;
         // return param_1;
         break; //added for main.cpp
       }
       //input2 = input;
-      input2 = enigma.encryptMessage(input);
+      input2 = enigma.encryptMessage((char)param_1[input]);
       enc += *input2;
       cout << "encrypt message: " <<  enc << endl;
       cout << "output: " << *input2 << endl;

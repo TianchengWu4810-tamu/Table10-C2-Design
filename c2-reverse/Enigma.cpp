@@ -265,8 +265,9 @@ void Enigma::checkRotorConfig(char* fileName, vector<int>& rotor) {
     }
 }
 
-char* Enigma::encryptMessage(char* message){
-    int key = comp1.map(*message - 0x41); //local_24
+char* Enigma::encryptMessage(char message){
+    cout << "message: " << message << endl;
+    int key = comp1.map(message - 0x41); //local_24
     Rotor rotor = rotorVec[globalVar - 1]; //pRVar5
     int rotorPos1; //iVar4
     int rotorPos2; //iVar3
@@ -315,6 +316,6 @@ char* Enigma::encryptMessage(char* message){
     }
     int var = comp1.map(key);
     char temp = var + 'A';
-    message = &temp;
-    return message;
+    char * pnt = &temp;
+    return pnt;
 }
