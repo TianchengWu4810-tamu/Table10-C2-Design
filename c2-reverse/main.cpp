@@ -12,11 +12,14 @@ int main() {
     fnamelist[7] = "\0";
     Enigma enigma(7, fnamelist);//Enigma* enigma = new Enigma(7, fnamelist);
     string param_1 = "SXHPPSHJLBIUKXZLFIAZZGPTCHBBAOPISOHFSPKBDRWDWKWLTMQSPVNWNFCVPTMZLYUTFVKCPHVARKVHBZMNFBDIHAWVPBKUTRTYENEGTTJPXEUGBXHZJMMGFQTEVMBENUMIOHLCLDDDHGXSTABXUYMRJTWTZSCYVFLZYFLZMXYDGRUJPDHDHHCCGNRELAIYQOBXPNVSDECRAWQVHOITADBTGUDFXIMAYWKZEDMYICIUUIQIXXGYHBZFZXGBFPBVMPLPDBEMNFFNPWMKQOCFCVSQPOGMITQFJRHFZJIRSHUFNTFBBFQREUHIZNNCCCGEMPHDHBPFLDVKDCBTRFFFTLNGCPFWRWFOHNMCJXNNQEDHYIQVKSKFCAMZBIWHERXFNHRHMQVLXX";
+    string param_2 = "401";
     char* input = &param_1[0];
     char* input2;
+    string enc = "";
 
     cout << "begin encrypting " << endl;
     do {
+      cout << "Input: " << *input << endl;
       if ((input != NULL) && (input[0] == '\0')) {
         // delete enigma;
         // return param_1;
@@ -31,7 +34,10 @@ int main() {
       }
       //input2 = input;
       input2 = enigma.encryptMessage(input);
-      cout << "encrypt message: " << input2 << endl;
+      enc += *input2;
+      cout << "encrypt message: " <<  enc << endl;
+      cout << "output: " << *input2 << endl;
       input++; //go to next char in char string
   } while( true );
+  cout << enc << endl;
 }
