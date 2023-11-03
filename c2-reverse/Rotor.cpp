@@ -37,10 +37,10 @@ int Rotor::getPreviousPosition() {
 
 
 int Rotor::isCurrentPositionInNotch() {
-  int size = positions.size();
+  int size = positions.size(); //1
   int i = 0;
   while(true) {
-    if (size <= i) {
+    if (size <= i) { 
       return 0;
     }
     if (pos == positions[i]) break;

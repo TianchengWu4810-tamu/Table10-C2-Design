@@ -14,14 +14,14 @@ int main() {
     string param_1 = "SXHPPSHJLBIUKXZLFIAZZGPTCHBBAOPISOHFSPKBDRWDWKWLTMQSPVNWNFCVPTMZLYUTFVKCPHVARKVHBZMNFBDIHAWVPBKUTRTYENEGTTJPXEUGBXHZJMMGFQTEVMBENUMIOHLCLDDDHGXSTABXUYMRJTWTZSCYVFLZYFLZMXYDGRUJPDHDHHCCGNRELAIYQOBXPNVSDECRAWQVHOITADBTGUDFXIMAYWKZEDMYICIUUIQIXXGYHBZFZXGBFPBVMPLPDBEMNFFNPWMKQOCFCVSQPOGMITQFJRHFZJIRSHUFNTFBBFQREUHIZNNCCCGEMPHDHBPFLDVKDCBTRFFFTLNGCPFWRWFOHNMCJXNNQEDHYIQVKSKFCAMZBIWHERXFNHRHMQVLXX";
     string param_2 = "401";
     int input = 0;
-    char* input2;
+    char input2;
     string enc = "";
 
     cout << "begin encrypting " << endl;
     do {
       cout << "Input: " << param_1[input] << endl;
       if ((&param_1[input] != NULL) && (param_1[input] == '\0')) {
-        // delete enigma;
+        // defdlete enigma;
         // return param_1;
         cout << "end of encryption" << endl;
         break; //added for main.cpp
@@ -34,9 +34,10 @@ int main() {
       }
       //input2 = input;
       input2 = enigma.encryptMessage((char)param_1[input]);
-      enc += *input2;
+      enc += input2;
       cout << "encrypt message: " <<  enc << endl;
-      cout << "output: " << *input2 << endl;
+      cout << "output: " << input2 << endl;
+      cout << endl;
       input++; //go to next char in char string
   } while( true );
   cout << enc << endl;

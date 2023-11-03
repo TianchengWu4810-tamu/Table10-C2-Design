@@ -265,9 +265,9 @@ void Enigma::checkRotorConfig(char* fileName, vector<int>& rotor) {
     }
 }
 
-char* Enigma::encryptMessage(char message){
-    cout << "message: " << message << endl;
-    int key = comp1.map(message - 0x41); //local_24
+char Enigma::encryptMessage(char message){
+    int key = comp1.map((int)(message - 'A')); //local_24
+    cout << "key: " << key << endl; //key = 18
     Rotor rotor = rotorVec[globalVar - 1]; //pRVar5
     int rotorPos1; //iVar4
     int rotorPos2; //iVar3
@@ -275,15 +275,19 @@ char* Enigma::encryptMessage(char message){
     bool a; //bool bVar1
     if(globalVar > 0){
         //rotor = rotorVec[globalVar - 1];
+        //cout << "rotor3 position before rotate: " << rotor.pos << endl;
         rotor.rotate();
+        //cout << "rotor3 position after rotate: " << rotor.pos << endl; //pos = 2 for rotor 3
 
         for(int i = globalVar; i > 0; i--){
             rotor = rotorVec[i-1];
-            rotorPos1 = rotor.shiftDown(key);
-            rotorPos1 = rotor.mapForward(rotorPos1);
-            key = rotor.shiftUp(rotorPos1);
-            inPos = rotor.isCurrentPositionInNotch();
-
+            // cout << "rotor ";
+            rotorPos1 = rotor.shiftDown(key); //rotorPos1 = 20
+            rotorPos1 = rotor.mapForward(rotorPos1); // rotorPos1 = 10
+            key = rotor.shiftUp(rotorPos1); // key = 8
+            cout << "key for rotor " << i << " is " << key << endl;
+            inPos = rotor.isCurrentPositionInNotch(); //inPos = 0
+            
             
             if(!inPos){
                 a = false;
@@ -304,18 +308,22 @@ char* Enigma::encryptMessage(char message){
             }
         }
 
-        key = comp2.map(key);
-
+        key = comp2.map(key); //key = 25;
+        cout << "key for comp2.map is " << key << endl;
+        // cout << "second time key: " << key << endl;
         for (int j = 0; j < globalVar; j++){
             rotor = rotorVec[j];
 
-            rotorPos1 = rotor.shiftDown(key);
+            rotorPos1 = rotor.shiftDown(key); //key = 25 for rotor 3
             rotorPos1 = rotor.mapBackward(rotorPos1);
-            key = rotor.shiftUp(rotorPos1);
+            key = rotor.shiftUp(rotorPos1); //key = 12 for rotor 3;
+            cout << "key for rotor " << j << " is " << key << endl;
         }
     }
-    int var = comp1.map(key);
+    int var = comp1.map(key); //var = 2, key = 12
     char temp = var + 'A';
-    char * pnt = &temp;
+    cout << "var: " << var << " temp: " << temp <<endl;
+    char pnt = temp;
+    
     return pnt;
 }
